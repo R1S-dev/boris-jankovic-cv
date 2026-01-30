@@ -1,0 +1,244 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================
+   BASE
+   ========================================================= */
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+               Segoe UI, Roboto, Helvetica, Arial;
+  background: rgb(var(--bg));
+  color: rgb(var(--ink));
+}
+
+/* Disable tap highlight */
+* { -webkit-tap-highlight-color: transparent; }
+
+/* Focus */
+:focus-visible {
+  outline: 2px solid rgb(var(--accent) / .55);
+  outline-offset: 2px;
+}
+
+/* Smooth scroll (screen only) */
+html { scroll-behavior: smooth; }
+
+/* =========================================================
+   THEME TOKENS
+   ========================================================= */
+html[data-theme="dark"]{
+  color-scheme: dark;
+  --bg: 11 12 16;
+  --panel: 16 18 24;
+  --line: 52 56 68;
+  --ink: 247 247 251;
+  --muted: 177 179 191;
+  --accent: 255 42 42;
+}
+
+html[data-theme="light"]{
+  color-scheme: light;
+  --bg: 246 247 251;
+  --panel: 255 255 255;
+  --line: 212 216 225;
+  --ink: 14 16 22;
+  --muted: 71 79 92;
+  --accent: 37 99 235;
+}
+
+/* =========================================================
+   BACKGROUND (DISABLED – CLEAN LOOK)
+   ========================================================= */
+.bg-noise::before,
+.bg-noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0; /* fully disabled */
+}
+
+/* =========================================================
+   PRINT MODE – CLEAN, PROFESSIONAL CV PDF
+   ========================================================= */
+@media print {
+
+  /* -------- PAGE SETUP -------- */
+  @page {
+    size: A4;
+    margin: 14mm 16mm;
+  }
+
+  html {
+    color-scheme: light !important;
+    --bg: 255 255 255;
+    --panel: 255 255 255;
+    --line: 200 200 200;
+    --ink: 0 0 0;
+    --muted: 70 70 70;
+    --accent: 0 0 0;
+  }
+
+  html, body {
+    background: #fff !important;
+    color: #000 !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* -------- HIDE APP CHROME / INTERACTIVE UI -------- */
+  aside,
+  nav,
+  footer,
+  .bg-noise,
+  .no-print,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Hide modal overlay if somehow open */
+  [role="dialog"],
+  .fixed.inset-0,
+  .modal-open {
+    display: none !important;
+  }
+
+  /* -------- LAYOUT -------- */
+  main {
+    padding: 0 !important;
+    max-width: none !important;
+  }
+
+  /* Keep sections readable; avoid awkward splits */
+  section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 8mm;
+  }
+
+  /* -------- TYPOGRAPHY (CV SCALE) -------- */
+  h1 {
+    font-size: 20pt !important;
+    margin: 0 0 3mm 0 !important;
+    letter-spacing: 0 !important;
+  }
+
+  h2 {
+    font-size: 12.5pt !important;
+    margin: 6mm 0 2mm 0 !important;
+  }
+
+  h3 {
+    font-size: 11pt !important;
+    margin: 0 0 2mm 0 !important;
+  }
+
+  p, li, div {
+    font-size: 10.5pt !important;
+    line-height: 1.45 !important;
+  }
+
+  .text-muted {
+    color: #555 !important;
+  }
+
+  /* -------- CARDS: clean “paper” look -------- */
+  .shadow-soft {
+    box-shadow: none !important;
+  }
+
+  .rounded-xl,
+  .rounded-xl2 {
+    border-radius: 0 !important;
+  }
+
+  .border-line {
+    border-color: #d6d6d6 !important;
+  }
+
+  .bg-panel,
+  .bg-white\/5 {
+    background: #fff !important;
+  }
+
+  /* Buttons are used as content cards (education/certs/experience). Keep them visible. */
+  button {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    background: transparent !important;
+  }
+
+  /* Remove hover/interaction decoration */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* -------- NO SCROLLBARS -------- */
+  ::-webkit-scrollbar { width: 0 !important; height: 0 !important; }
+}
+
+/* =========================================================
+   THEMED SCROLLBARS (DESKTOP)
+   ========================================================= */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--accent) / 0.45) transparent;
+}
+
+/* WebKit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  background-color: rgb(var(--accent) / 0.35);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(var(--accent) / 0.55);
+}
+
+/* Prevent horizontal scrollbar completely */
+::-webkit-scrollbar-horizontal {
+  display: none;
+}
+
+/* Dark theme – more subtle */
+html[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background-color: rgb(var(--accent) / 0.25);
+}
+html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(var(--accent) / 0.45);
+}
+
+/* Light theme – cleaner, clearer */
+html[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background-color: rgb(var(--accent) / 0.45);
+}
+html[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(var(--accent) / 0.65);
+}
+
+/* Print – no scrollbars ever */
+@media print {
+  ::-webkit-scrollbar { display: none !important; }
+  * { scrollbar-width: none !important; }
+}
